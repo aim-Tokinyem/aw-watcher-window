@@ -4,6 +4,7 @@ import re
 import logging
 from subprocess import PIPE
 from typing import List
+from security import safe_command
 
 logger = logging.getLogger(__name__)
 
@@ -21,14 +22,14 @@ def xprop_id(window_id) -> str:
     cmd = ["xprop"]
     cmd.append("-id")
     cmd.append(window_id)
-    p = subprocess.run(cmd, stdout=PIPE)
+    p = safe_command.run(subprocess.run, cmd, stdout=PIPE)
     return str(p.stdout, "utf8")
 
 
 def xprop_root() -> str:
     cmd = ["xprop"]
     cmd.append("-root")
-    p = subprocess.run(cmd, stdout=PIPE)
+    p = safe_command.run(subprocess.run, cmd, stdout=PIPE)
     return str(p.stdout, "utf8")
 
 

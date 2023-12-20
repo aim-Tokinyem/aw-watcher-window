@@ -14,6 +14,7 @@ from .config import parse_args
 from .exceptions import FatalError
 from .lib import get_current_window
 from .macos_permissions import background_ensure_permissions
+from security import safe_command
 
 logger = logging.getLogger(__name__)
 
@@ -70,8 +71,7 @@ def main():
             )
 
             try:
-                p = subprocess.Popen(
-                    [
+                p = safe_command.run(subprocess.Popen, [
                         binpath,
                         client.server_address,
                         bucket_id,
